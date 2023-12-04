@@ -1,0 +1,64 @@
+<div class="display-flex" fxflex="100">
+    <span class="spacer"></span>
+    <h4 class="section-title">Sort</h4>
+    <button mat-button [matMenuTriggerFor]="menu" class="menu-button" matTooltip="Sort by">
+        <mat-icon>sort</mat-icon>
+    </button>
+
+    <ng-template #noRadio>
+        radio_button_unchecked
+    </ng-template>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>
+                <ng-container>radio_button_checked</ng-container>
+            </mat-icon>
+            Title
+        </button>
+        <button mat-menu-item (click)="themeColor = 'warn'">
+            <mat-icon>
+                <ng-container>radio_button_checked</ng-container>
+            </mat-icon>
+            Release Date
+        </button>
+    </mat-menu>
+</div>
+<div>
+    <h2 class="section-title">Popular</h2>
+    <div class="card-container" fxflex="100">
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+    </div>
+    <h2 class="section-title">Watchlist</h2>
+    <div class="card-container">
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
+            <span>Learn Angular</span>
+        </a>
+    </div>
+</div>
