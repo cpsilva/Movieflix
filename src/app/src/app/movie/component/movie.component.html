@@ -16,7 +16,7 @@
             </mat-icon>
             Title
         </button>
-        <button mat-menu-item (click)="themeColor = 'warn'">
+        <button mat-menu-item>
             <mat-icon>
                 <ng-container>radio_button_checked</ng-container>
             </mat-icon>
@@ -26,39 +26,53 @@
 </div>
 <div>
     <h2 class="section-title">Popular</h2>
-    <div class="card-container" fxflex="100">
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
+    <div class="card-container" *ngIf="movieList">
+        <div *ngFor="let movie of movieList; let i = index">
+            <div (mouseenter)="displayMovieDetails(movie, true)" (mouseleave)="displayMovieDetails(movie, false)">
+                <mat-card class="card"
+                    [ngStyle]="{'background-image': 'url(' + getThumbnailPicture(movie.trailerLink) + ')'}">
+                    <mat-card-content class="card-content" (click)="goToMovieDetails(movie)">
+                        <div *ngIf="itIsOnWatchlist(movie)" style="padding: 1%; background-color: brown;">
+                            <span style="color: white; font-weight: bold; font-size: 80%;">On my watchlist</span>
+                        </div>
+                    </mat-card-content>
+                    <div @cardTrigger id="detail" *ngIf="movieDetailId == movie.id" class="card-movie-details">
+                        <div style="display: flex; flex-direction: column;">
+                            <span class="movie-details-text">{{movie.title}}</span>
+                            <span class="movie-details-text">Rating: {{movie.rating}}</span>
+                            <span class="movie-details-text">Duration: {{movie.duration}}</span>
+                            <span class="movie-details-text">Genere: {{movie.genre.join(", ")}}</span>
+                            <span class="movie-details-text">Release Date: {{movie.releasedDate | date:"dd MMM yyyy"
+                                }}</span>
+                        </div>
+                        <div style="display: flex;flex-flow: row-reverse; width: 20%;">
+                            <button mat-icon-button *ngIf="!itIsOnWatchlist(movie)" (click)="addToWatchList(movie)"
+                                class="small-icon-button" matTooltip="Add to your watchlist"
+                                color="accent"><mat-icon>playlist_add</mat-icon></button>
+                            <button mat-icon-button *ngIf="itIsOnWatchlist(movie)" matTooltip="Added to your watchlist"
+                                class="small-icon-button"
+                                color="accent"><mat-icon>playlist_add_check</mat-icon></button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
     </div>
     <h2 class="section-title">Watchlist</h2>
-    <div class="card-container">
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
-        <a class="card" target="_blank" rel="noopener" href="https://angular.io/tutorial">
-            <span>Learn Angular</span>
-        </a>
+    <div class="card-container" *ngIf="watchList">
+        <div *ngFor="let movie of watchList; let i = index">
+            <div>
+                <mat-card class="card"
+                    [ngStyle]="{'background-image': 'url(' + getThumbnailPicture(movie.trailerLink) + ')'}">
+                    <mat-card-content class="card-content-watchlist" (click)="goToMovieDetails(movie)">
+                        <div style="padding: 2%;">
+                            <button mat-icon-button (click)="removeFromWatchList(movie)"
+                                style="background-color: whitesmoke; opacity: 0.5;" matTooltip="Remove from watchlist"
+                                color="accent"><mat-icon>playlist_remove</mat-icon></button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
     </div>
 </div>

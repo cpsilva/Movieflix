@@ -1,1 +1,26 @@
-<p>movie-detail works!</p>
+<div>
+    <button mat-button (click)="back()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+    </button>
+</div>
+<div style="display: flex; flex-flow: row; justify-content: center; justify-items: center;width: 50em;">
+
+    <div>
+        <iframe width="560" height="315" [src]='getTrailerEmbededLink(movie!.trailerLink)' title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+    </div>
+    <div style="display: flex; flex-direction: column; margin-left: 5%;">
+        <span class="movie-details-text">{{movie!.title}}</span>
+        <span class="movie-details-text"><b>Rating:</b> {{movie!.rating}}</span>
+        <span class="movie-details-text"><b>Duration:</b> {{movie!.duration}}</span>
+        <span class="movie-details-text"><b>Genere:</b> {{movie!.genre.join(", ")}}</span>
+        <span class="movie-details-text"><b>Release Date:</b> {{movie!.releasedDate | date:"dd MMM yyyy"}}</span>
+        <p class="movie-details-text">
+            <span><b>Description:</b></span>
+            {{movie!.description}}
+        </p>
+    </div>
+</div>

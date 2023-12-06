@@ -1,21 +1,96 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MovieModel } from '../models/movie.model';
+import { MovieService } from '../service/movie.service';
+import { Router } from '@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
+  styleUrls: ['./movie.component.scss'],
+  animations: [
+    trigger('cardTrigger', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        animate(200)
+      ]),
+      transition(':leave', [
+        animate(200, style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        ),
+      ]),
+    ]),
+  ]
 })
-export class MovieComponent {
-  themeColor: 'primary' | 'accent' | 'warn' = 'primary';
+export class MovieComponent implements OnInit {
+  public movieList: Array<MovieModel> = new Array<MovieModel>();
+  public watchList: Array<MovieModel> = new Array<MovieModel>();
+  public changeText: boolean = false;
+  public movieDetailId: number = 0;
 
-  toggleTheme(): void {
-    // this.isDark = !this.isDark;
-    // if (this.isDark) {
-    //   this.overlayContainer.getContainerElement().classList.add('dark-theme');
-    // } else {
-    //   this.overlayContainer
-    //     .getContainerElement()
-    //     .classList.remove('dark-theme');
-    // }
+  constructor(private movieService: MovieService,
+    private cdr: ChangeDetectorRef,
+    private route: Router) {
+
+  }
+
+  ngOnInit(): void {
+    this.movieService.getAllMovies().subscribe((movies) => {
+      this.movieList = movies;
+
+      if (localStorage.getItem("watchList")) {
+        const watchListStorage: Array<MovieModel> = JSON.parse(localStorage.getItem("watchList")!);
+        this.watchList = watchListStorage;
+      }
+
+      this.cdr.detectChanges();
+    });
+  }
+
+  getThumbnailPicture(trailerLink: string) {
+    const urlParams = (new URL(trailerLink)).searchParams;
+    const videoId = urlParams.get('v');
+    return `https://img.youtube.com/vi/${videoId}/sddefault.jpg`
+  }
+
+  addToWatchList(movie: MovieModel) {
+    if (this.watchList.find(x => x.id === movie.id)) {
+      return;
+    }
+
+    this.watchList.push(movie);
+    localStorage.setItem("watchList", JSON.stringify(this.watchList));
+    this.cdr.detectChanges();
+  }
+
+  removeFromWatchList(movie: MovieModel) {
+    if (this.watchList.find(x => x.id === movie.id)) {
+      this.watchList = this.watchList.filter(x => x.id != movie.id);
+      localStorage.setItem("watchList", JSON.stringify(this.watchList));
+      this.cdr.detectChanges();
+    }
+  }
+
+  goToMovieDetails(movie: MovieModel) {
+    this.route.navigateByUrl(`/movie-detail/${movie.id}`)
+  }
+
+  itIsOnWatchlist(movie: MovieModel) {
+    return this.watchList.some(m => m.id === movie.id)
+  }
+
+  displayMovieDetails(_t32: MovieModel, arg1: boolean) {
+    if (arg1) {
+      this.movieDetailId = _t32.id;
+    } else {
+      this.movieDetailId = 0;
+    }
+
+    return arg1;
   }
 }
