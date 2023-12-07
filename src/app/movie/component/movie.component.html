@@ -10,17 +10,29 @@
     </ng-template>
 
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="sortBy('titleAsc')">
             <mat-icon>
-                <ng-container>radio_button_checked</ng-container>
+                <ng-container *ngIf="sortType === 'titleAsc'; else noRadio">radio_button_checked</ng-container>
             </mat-icon>
-            Title
+            Title Asc
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="sortBy('titleDesc')">
             <mat-icon>
-                <ng-container>radio_button_checked</ng-container>
+                <ng-container *ngIf="sortType === 'titleDesc'; else noRadio">radio_button_checked</ng-container>
             </mat-icon>
-            Release Date
+            Title Desc
+        </button>
+        <button mat-menu-item (click)="sortBy('releaseDateAsc')">
+            <mat-icon>
+                <ng-container *ngIf="sortType === 'releaseDateAsc'; else noRadio">radio_button_checked</ng-container>
+            </mat-icon>
+            Release Date Asc
+        </button>
+        <button mat-menu-item (click)="sortBy('releaseDateDesc')">
+            <mat-icon>
+                <ng-container *ngIf="sortType === 'releaseDateDesc'; else noRadio">radio_button_checked</ng-container>
+            </mat-icon>
+            Release Date Desc
         </button>
     </mat-menu>
 </div>

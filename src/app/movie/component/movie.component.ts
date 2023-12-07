@@ -28,10 +28,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ]
 })
 export class MovieComponent implements OnInit {
+
   public movieList: Array<MovieModel> = new Array<MovieModel>();
   public watchList: Array<MovieModel> = new Array<MovieModel>();
   public changeText: boolean = false;
   public movieDetailId: number = 0;
+  public sortType: string = '';
 
   constructor(private movieService: MovieService,
     private cdr: ChangeDetectorRef,
@@ -92,5 +94,28 @@ export class MovieComponent implements OnInit {
     }
 
     return arg1;
+  }
+
+  sortBy(typeSort: string) {
+    this.sortType = typeSort;
+
+    switch (typeSort) {
+      case 'titleAsc':
+        this.movieList = this.movieList.sort((a, b) => (a.title > b.title) ? 1 : -1);
+        break;
+      case 'titleDesc':
+        this.movieList = this.movieList.sort((a, b) => (b.title > a.title) ? 1 : -1)
+        break;
+      case 'releaseDateAsc':
+        this.movieList = this.movieList.sort((a, b) => (a.releasedDate > b.releasedDate) ? 1 : -1)
+        break;
+      case 'releaseDateDesc':
+        this.movieList = this.movieList.sort((a, b) => (b.releasedDate > a.releasedDate) ? 1 : -1)
+        break;
+      default:
+        this.movieList = this.movieList.sort((a, b) => (a.title > b.title) ? 1 : -1);
+        break;
+    }
+    throw new Error('Method not implemented.');
   }
 }
