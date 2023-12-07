@@ -7,8 +7,7 @@
 <div style="display: flex; flex-flow: row; justify-content: center; justify-items: center;width: 50em;">
 
     <div>
-        <iframe width="560" height="315" [src]='getTrailerEmbededLink(movie!.trailerLink)' title="YouTube video player"
-            frameborder="0"
+        <iframe width="560" height="315" [src]='trailerLink' title="YouTube video player" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen></iframe>
     </div>
@@ -22,5 +21,10 @@
             <span><b>Description:</b></span>
             {{movie!.description}}
         </p>
+        <button mat-button *ngIf="!itIsOnWatchList" (click)="addToWatchList(movie!)" class="small-icon-button"
+            color="accent"><span>Add to your watchlist</span><mat-icon>playlist_add</mat-icon></button>
+        <button mat-button *ngIf="itIsOnWatchList" (click)="removeFromWatchList(movie!)"
+            style="background-color: whitesmoke; opacity: 0.5;" color="accent"><span>Remove from your
+                watchlist</span><mat-icon>playlist_remove</mat-icon></button>
     </div>
 </div>
